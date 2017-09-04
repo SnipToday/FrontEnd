@@ -1,0 +1,80 @@
+{% extends 'base_en.html' %}
+
+{% load static socialaccount %}
+
+{% block title %}
+Snip - Log in
+{% endblock %}
+
+{% block header %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'css/auth.css' %}"/>
+{% endblock %}
+
+
+{% block body %}
+
+<!-- main area -->
+
+<div class="row justify-content-center">
+    <div class="col-xl-7 col-lg-9 col-xs-12">
+        <div class="main-div">
+            <div class="text-center">
+                {% if new_user %}
+                <div>
+                    Welcome to Snip Community!
+                    <br>
+                    Please confirm your email before signing in.
+                    <br>
+                    <br>
+                </div>
+                {% endif %}
+                <div class="login-container">
+                    <div class="login-title">
+                        Login to Your Account
+                    </div>
+                    <form id="login" method="post" action="{% url 'account_login' %}">
+                        {% csrf_token %}
+                        <input type="email" class="user-data" id="{{ form.login.id_for_label }}" name="{{ form.login.html_name }}" aria-describedby="emailHelp" placeholder="E-mail" required>
+                        <input type="password" class="user-data" id="{{ form.password.id_for_label }}" name="{{ form.password.html_name }}" placeholder="Password" required>
+                        {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                        {% endif %}
+                        <div class="form-check">
+                            <input type="checkbox" id="{{ form.remember.id_for_label }}" name="{{ form.remember.html_name }}" class="form-check-input">
+                            <label class="form-check-label" for="{{ form.remember.id_for_label }}">
+                                Remember me
+                            </label>
+                        </div>
+                        <button class="login login-submit" type="submit">Login</button>
+                        <span class="auth-errors">{{ form.non_field_errors }}</span>
+
+
+                    </form>
+                    <div class="hr" id="signup-form-facebook-separator">
+                        <div class="inner">or</div>
+                    </div>
+                    <div>
+                        <a href="{% provider_login_url 'facebook' %}"><img class="fb-login-img" src="{% static 'img/fbloginbutton2.png' %}"></a>
+                    </div>
+                    <div class="extras" style="padding-top: 20px">
+                        By registering you confirm that you accept the <a target="_blank" href="{% url 'landing:terms' %}">Terms and Conditions</a>
+                    </div>
+                    <div class="login-help">
+                        <a class="extras" href="{{ signup_url }}">Sign up</a> - <a class="extras" href="{% url 'account_reset_password' %}">Forgot Password</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block modals %}
+{% endblock %}
+
+
+{% block footer %}
+{% endblock %}

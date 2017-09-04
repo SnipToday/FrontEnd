@@ -1,0 +1,71 @@
+
+<html>
+
+{% load static wagtailcore_tags wagtailimages_tags snip_extra fullurl %}
+
+<head>
+
+<meta charset="utf-8">
+
+  <title>Basic threaded commenting</title>
+
+  <!-- optimize for mobile -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- force latest IE rendering engine -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://cdn.muut.com/1/moot.css">
+
+  <!-- page specific CSS -->
+  <style>
+    body {
+       font-family: "myriad pro", tahoma, verdana, arial, sans-serif;
+       font-size: 18px; margin: 0; padding: 0;
+    }
+    #hero-image { margin: 1em 0; max-width: 100% }
+    #content { margin: 0 auto; max-width: 700px; }
+  </style>
+
+</head>
+
+<body>
+
+  <div id="content">
+
+    <!-- Muut embed -->
+
+  </div>
+
+<div id="muut_test" data-url="https://muut.com/i/sniptoday/1000" data-page-url="{% fullurl 'snips:posts'%}test_muut"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8" crossorigin="anonymous"></script>
+
+<script src="https://cdn.muut.com/1/moot.min.js"></script>
+<script type="text/javascript">
+    var muut_sig = '{{ muut.sig }}';
+    var muut_key = '{{ muut.key }}';
+    var muut_t = '{{ muut.t }}';
+    var muut_msg = '{{ muut.msg }}';
+    var snip_login_url = '{% url 'account_login' %}';
+
+    $('#muut_test').muut({
+        login_url: snip_login_url,
+        url: $(this).attr("data-url"),
+        page_url: $(this).attr("data-page-url"),
+        show_title: false,
+        autowatch: false,
+        sso: true,
+        api: {
+            key: muut_key,
+            message: muut_msg,
+            signature: muut_sig,
+            timestamp: muut_t
+          }
+    });
+</script>
+
+</body>
+
+</html>
+

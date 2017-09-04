@@ -1,0 +1,26 @@
+{% extends 'base_en.html' %}
+
+{% load i18n %}
+{% load account %}
+
+
+{% block body %}
+
+<!-- main area -->
+
+<div class="row justify-content-center">
+    <div class="col-xl-7 col-lg-9 col-xs-12">
+        <div class="main-div" style="padding-top:30px">
+            <div class="text-center" style="font-size: 1.2rem">
+              Email Confirmed!
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block sidebar %}
+{{ block.super }}
+{% endblock %}

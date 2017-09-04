@@ -1,0 +1,24 @@
+.main-div {
+    padding-top: 30px;
+}
+
+.pay-card {
+    height: 160px;
+    margin-top: 30px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    border-radius: 0px;
+}
+
+.pay-text {
+    padding-bottom: 10px;
+}
+
+.pay-text-desc {
+    font-size: 90%;
+}
+
+@media only screen and (min-width:768px) {
+    .pay-card-inner {
+        padding-bottom: 15px;
+    }
+}

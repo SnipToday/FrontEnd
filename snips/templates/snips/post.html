@@ -1,0 +1,123 @@
+{% extends base_template %}
+{% load static wagtailcore_tags wagtailimages_tags snip_extra fullurl %}
+
+{% block posts_wrapper %}
+{% with img_pholder='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' %}
+{% for post in posts %}
+{% split_text post.body as body %}
+<section id="{{ post.id }}" data-title="{% url 'snips:post' post.slug %}" data-log-url="{% url 'snips:log' post.id %}">
+    <div class="post {% if post.premium %}locked{% endif %}">
+        <div class="post-img-div {% if not forloop.first %}loading{% endif %}">
+            {% if post.video %}
+                {% if forloop.first %}
+                    <video class="post-img" src="{{ post.video.file.url }}" controls/>
+                {% else %}
+                    <video class="b-lazy post-img" src="{{img_pholder}}" data-src="{{ post.video.file.url }}" controls/>
+                {% endif %}
+            {% elif post.image1 %}
+                {% image post.image1 height-800 as cur_image %}
+                <img class="img-fluid post-img" src="{{ cur_image.url }}">
+                <p class="image-caption">{{ post.image1.caption }}</p>
+            {% endif %}
+        </div>
+        {% if post.category %}
+            <div class="yellow_box"><a href="{% url 'snips:posts_category' post.category.name %}">{{ post.category.display_name }}</a></div>
+        {% endif %}
+
+        <h2>{{ post.title }}</h2>
+
+        <div class="second_pro">
+            <a class="" href="{% url 'snips:post' post.slug %}">
+                {{ post.first_published_at|age }}</a>{% if post.author %}
+            , by {{ post.author.get_full_name }}
+                {% if post.author.wallet.eth_address %}
+                <button type="button" class="btn btn-primary tip-btn" data-toggle="modal" data-target="#tipModal"
+                        data-author="{{ post.author.get_full_name }}" data-address="{{ post.author.wallet.eth_address }}"
+                        data-username="{{ post.author.username }}">
+                    TIP AUTHOR
+                </button>
+                {% endif %}
+            {% endif %}
+        </div>
+
+
+        <br class="clear">
+        <div class="post-body">
+            <span class="post-body-start">
+            {{ body.0|safe|linebreaksbr }}
+            </span>
+            {% if body.1 and not post.premium %}
+            <span class="moretext" style="display: none;">
+                <pre>
+                    {{ body.1 }}
+                </pre>
+            </span>
+            {% endif %}
+        </div>
+        <div class="row post-footer">
+            {% if not post.premium %}
+            <div class="sources-div col col-8 hidden">
+                <ul class="sources">
+                   {% for cur_link in post.related_links.all %}
+                    <li>
+                    <i class="fa fa-external-link" aria-hidden="true"></i>
+                    <a class="source-link" target="_blank" href="{{ cur_link.link_external }}">{{ cur_link.title }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            <div class="col-8 readmore-wrapper">
+                <a class="readmore no-decor" href="#"
+                   data-page-url="{% fullurl 'snips:post' post.slug %}" login-next-url="{% url 'snips:post' post.slug %}">
+                    Continue Reading
+                    {% if post|is_post_locked %}
+                    <span class="post-lock"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                    {% endif %}
+                </a>
+            </div>
+
+            <div class="col-4">
+                <div class="post-actions">
+                    <div class="vote like {{ post.liked }}">
+                        <i class="fa {% if post.liked %}fa-thumbs-up{% else %}fa-thumbs-o-up{% endif %}" aria-hidden="true"></i>
+                    </div>
+                    <div class="vote dislike {{ post.disliked }}">
+                        <i class="fa {% if post.disliked %}fa-thumbs-down{% else %}fa-thumbs-o-down{% endif %}" aria-hidden="true"></i>
+                    </div>
+                    <div class="share" data-url="{% fullurl 'snips:post' post.slug %}" data-title="{{ post.title }}">
+                        <div class="fab no twtr-share"></div>
+                        <div class="fab no fb-share"></div>
+                        <div class="fab no email-share"></div>
+                        <div class="fab no reddit-share"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="second-image-wrapper hidden">
+        {% if post.image2 %}
+            <div class="second-image-div loading">
+                {% image post.image2 height-400 as cur_image %}
+                <img class="img-fluid post-img" src="{{img_pholder}}" data-src="{{ cur_image.url }}">
+                <p class="image-caption">{{ post.image2.caption }}</p>
+            </div>
+        {% endif %}
+        </div>
+
+        <div>
+            <div class="post-comments"></div>
+        </div>
+    </div>
+
+</section>
+
+
+{% endfor %}
+{% if next_page %}
+    <div class="next jscroll-next-parent" style="display: none;">
+    <a class="jscroll-next" href="{% url 'snips:posts' %}?{% url_without_paging request 'page' %}&amp;page={{ next_page }}">next</a>
+    </div>
+{% endif %}
+
+{% endwith %}
+{% endblock %}

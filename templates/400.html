@@ -1,0 +1,46 @@
+{% extends 'base_en.html' %}
+
+{% load static %}
+
+{% block title %}
+Snip - Page Not Found
+{% endblock %}
+
+{% block nav-url %}
+{% url 'snips:posts' %}
+{% endblock %}
+
+
+{% block page_fb_title %}
+Snip - Page Not Found
+{% endblock %}
+
+
+{% block body %}
+
+<div class="row justify-content-center">
+
+    <div class="col-xl-7 col-lg-9 col-xs-12 text-xs-center">
+        <br>
+        <img src="{% static 'img/sad-dog.jpg' %}" class="img-fluid rounded" alt="Sad Dog">
+        <br>
+        <br>
+        <h4 class="text-center">Page not found...</h4>
+
+    </div>
+
+
+</div>
+
+{% endblock %}
+
+
+
+
+
+{% block footer %}
+
+
+{% endblock %}
+
+

@@ -1,0 +1,193 @@
+
+body { background:#f1f1f1; margin:0; padding:0; font-family: 'Lato', sans-serif; overflow-x:hidden; width:100%}
+html { padding:0; margin:0;}
+
+.no-decor:hover{ outline: none !important; text-decoration: none;}
+.no-decor:active{ outline: none !important; text-decoration: none;}
+.no-decor:focus{ outline: none !important; text-decoration: none;}
+
+.clear { padding:0; margin:0; display:block; clear:both; line-height:1px; font-size:1px;}
+
+.btn {
+    cursor: pointer;
+}
+
+
+.navbar-default {
+    background-color: #171E66;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+    z-index: 999;
+}
+
+.logo img { height:32px;}
+.right_header { float:right; padding:1px 0 0 0; height: 30px;}
+.logo {float:left; line-height: 32px;}
+.search {height:30px; margin:0 0;  border-radius:50%; line-height:30px;}
+
+.navbar .navbar-item {
+    color: white;
+    padding-right:17px;
+    float: left;
+    cursor:pointer;
+    font-size: 17px;
+
+}
+.navbar .user-profile {
+    font-size: 17px;
+}
+
+.navbar .navbar-item a {
+    color: white;
+}
+
+.navbar .navbar-item-social {
+    font-size: 17px;
+}
+
+.navbar-slogan {
+    color: white;
+    padding-left:10px;
+    font-family: 'Kalam', cursive;
+    font-size: 14px;
+}
+
+.nav_menu { float:right; padding:0; cursor:pointer}
+
+.item-opac:hover {
+    opacity:0.8;
+}
+
+
+@media only screen and (max-width:639px) {
+    .navbar-slogan {
+        display: block !important;
+        position: absolute;
+        top: 32px;
+        padding-left: 0;
+        font-size: 11px;
+    }
+
+    .navbar-default {
+        height: 65px;
+    }
+}
+
+
+.nav-signin {
+    text-decoration: none;
+    font-size: 90%;
+}
+
+.search_main {display: none;position: absolute;width: 276px;right: -0;top: 38px;background: #fff;border: 1px solid #ccc;border-radius: 5px; margin:0; padding:0 0 0 5px; z-index:99}
+.search_main input[type="text"] { float:left; margin:0; padding:5px; border:none; background:#fff; width:214px;}
+.search_main button[type="submit"] {
+	float:right;
+	margin:1px;
+	padding:5px 0;
+	border:none;
+	background:center center no-repeat #ffae00;
+	width:36px;
+	cursor:pointer;
+	border-radius:4px;
+	color: white;
+}
+
+
+.overlay { width:100%; height:100%; background:rgba(0, 0, 0, .5); position:fixed; top:0; left:0; display:none; z-index: 100;}
+
+.nav_open {
+    background: #f4f4f4;
+    border: 1px solid #dddddd; width:320px; padding:0; position:fixed; right:0; top:0; height:100%;
+    -webkit-transform: translate(100%); transform: translate(100%);transition: transform 250ms ease-in 0s;
+    z-index:1000; overflow-y: auto
+}
+
+.nav_cross { text-align:right; border-bottom:1px solid #ddd; padding:11px 10px; font-size:18px; color:#4f4f4f;}
+.nav_cross i { cursor:pointer;}
+.navbar_scrollable {
+	padding:0;
+}
+
+.no_scroll {
+    position: fixed;
+}
+
+.nav_bar_menu { padding:0 0;}
+.nav_bar_menu .nav_item {
+    padding: 8px 15px; font-size: 0.85rem;
+}
+.nav_bar_menu .separator {
+    border-bottom:1px solid #ddd;
+    margin: 0px 15px;
+}
+.nav_bar_menu li a { color:#4f4f4f; }
+
+.search-sidebar {
+    padding: 0.2rem 0.4rem;
+
+}
+
+.nav_bar_menu .sidebar-social:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.sidebar-social {
+    padding-right: 15px;
+    font-size: 1.83em
+}
+
+.nav_bar_menu .sidebar-twitter {
+    color: #1da1f2; font-size: 2.1em;
+}
+
+.nav_bar_menu .sidebar-facebook {
+    color: #3b5998;
+}
+
+.nav_bar_menu .sidebar-telegram {
+    color: #00a4d4;
+}
+
+.nav_bar_menu .sidebar-slack {
+    color: #002fd4;
+}
+
+
+@media only screen and (max-width:639px)
+{
+    .nav_open { width:60%;}
+}
+
+
+::-webkit-scrollbar
+{
+    width: 8px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.1);
+    background-color: #c3c3c3;
+}
+
+.no-padding-right {
+    padding-right:0 !important;
+}
+
+.no-padding-right.modal-open {
+    overflow: auto;
+}
+
+@media only screen and (max-width:1000px) {
+    .top-menu {margin: 0; padding: 0; width: 100%}
+}

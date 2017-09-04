@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+{% load static fullurl %}
+<html lang="en">
+<head>
+	{% with title="Snip - News. Summarized." desc="Short Content, Decentralized Platform" %}
+
+    <title>{% block title %}{{ title }}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'bootstrap-4.0.0/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/baseCSS_new.css' %}"/>
+	 <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+	<!-- Font CSS -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900,900i|Open+Sans" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Kalam" rel="stylesheet">
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="{% block page_twtr_title %}{{ title }}{% endblock %}" />
+	<meta name="twitter:description" content="{% block page_twtr_desc %}{{ desc }}{% endblock %}" />
+
+	{% block social_img %}
+	<meta name="twitter:image" content="{% fullstatic 'img/snip_logo_rect.png' %}" />
+    <meta property="og:image" content="{% fullstatic 'img/snip_logo_rect.png' %}" />
+	{% endblock %}
+
+    <meta property="og:title" content="{% block page_fb_title %}{{ title }}{% endblock %}" />
+	<meta property="og:description" content="{% block page_fb_desc %}{{ desc }}{% endblock %}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+    <meta property="fb:app_id" content="193163494453571" />
+    <meta name="description" content="{% block page_desc %}{{ desc }}{% endblock %}">
+    <meta name="author" content="Snip">
+	{% endwith %}
+    {% block header %}{% endblock %}
+	<!-- start Mixpanel -->
+	<script type="text/javascript">(function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,
+0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="mixpanel";d.people=d.people||[];d.toString=function(b){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};k="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
+mixpanel.init("{{ mixpanel_token }}");</script>
+	<!-- end Mixpanel -->
+    <!-- GA -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics{% if debug %}_debug{% endif %}.js','ga');
+
+      ga('create', 'UA-88259675-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+    <!-- FB pixel -->
+    <script>
+	!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+	n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+	n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+	t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+	document,'script','https://connect.facebook.net/en_US/fbevents.js');
+	fbq('init', '294102221049148'); // Insert your pixel ID here.
+	fbq('track', 'PageView');
+	</script>
+    <noscript>
+		<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=294102221049148&ev=PageView&noscript=1"/>
+	</noscript>
+	<!-- Facebook Pixel Code -->
+
+	<script>
+	  window.fbAsyncInit = function() {
+		FB.init({appId:'1420654774693751', xfbml: true, version: 'v2.9'});
+		FB.AppEvents.logPageView();
+	  };
+
+	  (function(d, s, id){
+		 var js, fjs = d.getElementsByTagName(s)[0];
+		 if (d.getElementById(id)) {return;}
+		 js = d.createElement(s); js.id = id;
+		 js.src = "//connect.facebook.net/en_US/sdk.js";
+		 fjs.parentNode.insertBefore(js, fjs);
+	   }(document, 'script', 'facebook-jssdk'));
+	</script>
+
+	<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <!-- DO NOT MODIFY -->
+	{% csrf_token %}
+</head>
+<body>
+<!-- Navigation -->
+
+<nav id="nav-main" class="navbar navbar-toggleable-xl navbar-default" role="navigation">
+	<div class="container top-menu align-self-start">
+		<div class="mr-auto">
+			<a class="navbar-brand navbar-logo logo" href="{% block nav-url %}{% url 'snips:posts' %}{% endblock %}">
+				<img src="{% static 'img/snip_logo.svg' %}" alt="">
+				<span class="navbar-slogan">
+				News. Summarized.
+				</span>
+			</a>
+		</div>
+
+		<div class="right_header">
+			{% if not user.is_authenticated %}
+			<div class="navbar-item hidden-xs-down">
+				<a class="nav-signin item-opac log-b" data-action="signin" href="{% url 'account_login' %}">Log in</a>
+			</div>
+			<div class="navbar-item hidden-xs-down">
+				<a class="nav-signin item-opac log-b" data-action="signup" href="{% url 'account_signup' %}"><b>Sign up</b></a>
+			</div>
+			{% endif %}
+
+			{% block navbar-social-buttons %}
+			<div class="navbar-item item-opac">
+				<a href="https://twitter.com/intent/follow?screen_name=@SnipToday" target="_blank" class="log-b" data-action="follow" data-param1="twtr">
+					<i class="fa fa-twitter" aria-hidden="true"></i>
+				</a>
+			</div>
+			<!--<div class="navbar-item hidden-xs-down item-opac">-->
+				<!--<a href="https://www.facebook.com/sniptoday/" target="_blank" class="log-b" data-action="follow" data-param1="fb">-->
+					<!--<i class="fa fa-facebook" aria-hidden="true"></i>-->
+				<!--</a>-->
+			<!--</div>-->
+			<div class="navbar-item item-opac">
+				<a href="https://t.me/sniptoday" target="_blank" class="log-b" data-action="follow" data-param1="fb">
+					<i class="fa fa-telegram" aria-hidden="true"></i>
+				</a>
+			</div>
+			<div class="navbar-item hidden-sm-down item-opac">
+				<a href="https://slack.snip.network/" target="_blank" class="log-b" data-action="follow" data-param1="fb">
+					<i class="fa fa-slack" aria-hidden="true"></i>
+				</a>
+			</div>
+			{% endblock %}
+
+			{% if user.is_authenticated %}
+			<div class="navbar-item item-opac">
+				<a href="{% block nav-user-url %}{% endblock %}" class="log-b" data-action="profile">
+					<i class="fa fa-user-circle" aria-hidden="true"></i>
+				</a>
+			</div>
+			{% endif %}
+			{% block navbar-buttons %}
+			{% endblock %}
+
+
+			<div class="nav_menu"><img src="{% static 'img/nav_bg.png' %}" alt=""></div>
+		</div>
+	</div>
+</nav>
+
+
+<!--Contain Start-->
+
+<div class="container">
+{% block body %}
+
+{% endblock %}
+</div>
+
+<div class="overlay"></div>
+<div class="nav_open">
+	<div class="nav_cross"><i class="fa fa-times nav_close" aria-hidden="true"></i></div>
+	<div class="navbar_scrollable">
+		<ul class="nav_bar_menu">
+			{% if not user.is_authenticated %}
+			<li class="nav_item">
+				<a class="log-b" data-action="signin" href="{% url 'account_login' %}">Log in</a>  &nbsp;/&nbsp;
+				<a class="log-b" data-action="signup" href="{% url 'account_signup' %}">Sign up</a>
+			</li>
+			{% endif %}
+
+			<li class="nav_item">
+				<a href="https://twitter.com/intent/follow?screen_name=@SnipToday" target="_blank"
+				   class="log-b sidebar-social sidebar-twitter" data-action="follow" data-param1="twtr">
+					<i class="fa fa-twitter" aria-hidden="true"></i>
+				</a>
+				<a href="https://www.facebook.com/sniptoday/" target="_blank" class="log-b sidebar-social sidebar-facebook"
+				   data-action="follow" data-param1="fb">
+					<i class="fa fa-facebook" aria-hidden="true"></i>
+				</a>
+				<a href="https://slack.snip.network" target="_blank" class="log-b sidebar-social sidebar-slack" data-action="follow" data-param1="slack">
+					<i class="fa fa-slack" aria-hidden="true"></i>
+				</a>
+				<a href="https://t.me/sniptoday" target="_blank" class="log-b sidebar-social sidebar-telegram" data-action="follow" data-param1="telegram">
+					<i class="fa fa-telegram" aria-hidden="true"></i>
+				</a>
+			</li>
+
+			{% block sidebar-search %}
+			{% endblock %}
+
+			{% block sidebar %}
+			{% endblock %}
+			<li class="nav_item"><a alt="About" target="_blank" href="https://snip.network">About</a></li>
+			<li class="nav_item"><a alt="Contact" target="_top" href="mailto:info@snip.today?Subject=Hey%20Snip">Contact Us</a></li>
+			<li class="nav_item"><a alt="Contact" target="_top" href="{% url 'landing:terms' %}">Terms of Service</a></li>
+			<li class="nav_item"><a alt="Contact" target="_top" href="{% url 'landing:privacy' %}">Privacy Policy</a></li>
+			{% if user.is_authenticated %}
+			<li class="separator"></li>
+			<li class="nav_item">
+				<form class="logout-form" method="post" action="{% url 'account_logout' %}">
+					{% csrf_token %}
+					<button class="btn btn-danger btn-sm" type="submit">Sign out</button>
+				</form>
+			</li>
+			{% endif %}
+		</ul>
+	</div>
+</div>
+
+{% block modals %}
+{% endblock %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static 'bootstrap-4.0.0/js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/baseScripts.js' %}"></script>
+<script type="text/javascript">
+	var log_url = "{% url 'userProfile:user-log' %}";
+	var is_auth = {% if user.is_authenticated %}true{% else %}false{% endif %};
+    mixpanel.identify('{{ mixpanel_id }}');
+    mixpanel.register({"authenticated": is_auth });
+</script>
+</body>
+{% block footer %}
+{% endblock %}
+
+
+</html>
+

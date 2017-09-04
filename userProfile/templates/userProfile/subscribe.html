@@ -1,0 +1,71 @@
+{% extends 'base_en.html' %}
+
+{% load static socialaccount %}
+
+{% block title %}
+Snip - Subscribe Now
+{% endblock %}
+
+{% block header %}
+<link rel="stylesheet" type="text/css" href="{% static 'userProfile/css/user.css' %}"/>
+{% endblock %}
+{% block body %}
+
+<!-- main area -->
+<div class="row justify-content-center">
+    <div class="main-div col-xl-7 col-lg-9 col-xs-12">
+        {% if payment_failed %}
+        <div class="text-center">
+            <div style="color: red">Something went wrong...<br>Please try again</div>
+            <br>
+        </div>
+        {% endif %}
+        <div class="text-center">
+            <h3 style="text-transform: uppercase;font-weight: bold;">Subscribe now</h3>
+            <h5>Get unlimited access to all snips</h5>
+        </div>
+        <div class="row justify-content-around">
+            <div class="col-10 col-md-5">
+                <div class="card pay-card text-center">
+                    <div class="card-block d-flex align-items-center justify-content-center align-items-md-end">
+                        <div class="pay-card-inner">
+                        <span class="card-text">
+                        <div class="pay-text">
+                            <b>${{ paypal_yearly.0}}/month</b><br>
+                            <span class="pay-text-desc">Yearly subscription</span>
+                        </div>
+                        {{ paypal_yearly.1.render }}
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-10 col-md-5">
+                <div class="card pay-card text-center">
+                    <div class="card-block d-flex align-items-center justify-content-center align-items-md-end">
+                        <div class="pay-card-inner">
+                        <span class="card-text">
+                            <div class="pay-text">
+                                <b>${{ paypal_monthly.0 }}/month</b><br>
+                                <span class="pay-text-desc">Monthly Subscription</span>
+                            </div>
+                        {{ paypal_monthly.1.render }}
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block modals %}
+{% endblock %}
+
+
+{% block footer %}
+{% endblock %}

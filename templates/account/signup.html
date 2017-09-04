@@ -1,0 +1,66 @@
+{% extends 'base_en.html' %}
+
+{% load static socialaccount %}
+
+{% block title %}
+Snip - Sign up
+{% endblock %}
+
+{% block header %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'css/auth.css' %}"/>
+{% endblock %}
+
+
+{% block body %}
+<!-- main area -->
+
+<div class="row justify-content-center">
+    <div class="col-xl-7 col-lg-9 col-xs-12">
+        <div class="main-div">
+            <div class="text-center">
+                <div class="login-container">
+                    <div class="login-title">
+                        Join us!
+                    </div>
+                    <form id="signup" method="post" action="{% url 'account_signup' %}">
+                        {% csrf_token %}
+                        <input type="email" class="user-data" id="{{ form.email.id_for_label }}" name="{{ form.email.html_name }}" aria-describedby="emailHelp" placeholder="E-mail" required>
+                        <span class="auth-errors">{{ form.email.errors }}</span>
+                        <input type="text" class="user-data" id="{{ form.first_name.id_for_label }}" name="{{ form.first_name.html_name }}" placeholder="First Name" required>
+                        <span class="auth-errors">{{ form.first_name.errors }}</span>
+                        <input type="text" class="user-data" id="{{ form.last_name.id_for_label }}" name="{{ form.last_name.html_name }}" placeholder="Last Name" required>                        <span class="auth-errors">{{ form.password1.errors }}</span>
+                        <span class="auth-errors">{{ form.last_name.errors }}</span>
+                        <input type="password" class="user-data" id="{{ form.password1.id_for_label }}" name="{{ form.password1.html_name }}" placeholder="Password (At least 6 chars)" required>
+                        <span class="auth-errors">{{ form.password1.errors }}</span>
+                        <input type="password" class="user-data" id="{{ form.password2.id_for_label }}" name="{{ form.password2.html_name }}" placeholder="Type Password Again" required>
+                        <span class="auth-errors">{{ form.password2.errors }}</span>
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{% url 'account_email_verification_sent' %}" />
+                        <button class="login login-submit" type="submit">Register</button>
+                    </form>
+                    {{ form.non_field_errors }}
+                    <div class="hr" id="signup-form-facebook-separator">
+                        <div class="inner">or</div>
+                    </div>
+                    <div>
+                        <a href="{% provider_login_url 'facebook' %}"><img class="fb-login-img" src="{% static 'img/fbloginbutton2.png' %}"></a>
+                    </div>
+                    <div class="extras" style="padding-top: 20px">
+                        By registering you confirm that you accept the <a target="_blank" href="{% url 'landing:terms' %}">Terms and Conditions</a>
+                    </div>
+                    <div class="login-help">
+                        <a class="extras" href="{{ login_url }}">Already a member</a> - <a class="extras" href="{% url 'account_reset_password' %}">Forgot Password</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block sidebar %}
+{{ block.super.super }}
+{% endblock %}
+

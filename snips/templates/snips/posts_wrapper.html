@@ -1,0 +1,403 @@
+{% extends 'base_en.html' %}
+
+{% load static wagtailcore_tags wagtailimages_tags snip_extra %}
+
+
+{% block social_img %}
+{% if main_post and main_post.image1 %}
+{% image main_post.image1 max-1500x800 as main_image %}
+<meta property="og:image:width" content="{{ main_image.width }}" />
+<meta property="og:image:height" content="{{ main_image.height }}" />
+<meta property="og:image" content="{{ main_image.url }}" />
+<meta name="twitter:image" content="{{ main_image.url }}" />
+{% else %}
+{{ block.super }}
+{% endif %}
+{% endblock %}
+
+{% block title %}{{ page_title }}{% endblock %}
+{% block page_fb_title %}{{ page_title }}{% endblock %}
+{% block page_twtr_title %}{{ page_title }}{% endblock %}
+
+{% block page_desc %}{{ page_desc }}{% endblock %}
+{% block page_fb_desc %}{{ page_desc }}{% endblock %}
+{% block page_twtr_desc %}{{ page_desc }}{% endblock %}
+
+
+{% block header %}
+<link rel="stylesheet" type="text/css" href="{% static 'snips/css/contentCSS.css' %}"/>
+<style>
+.twtr-share {
+  background: #1DA1F2 url({% static 'img/Twitter.svg' %}) center/20px no-repeat;
+  top: -114px;
+}
+.fb-share {
+  background: #46629E url({% static 'img/Facebook.svg' %}) center/20px 20px no-repeat;
+  top: -76px;
+}
+.email-share {
+  background: #ff9800 url({% static 'img/mail.png' %}) center/20px no-repeat;
+  top: -38px;
+}
+
+.reddit-share {
+  background: #ff4500 url({% static 'img/Reddit.svg' %}) center/20px no-repeat;
+}
+
+.vote.{{ mark_vote }} {
+    color: #ffae00;
+}
+.loading {
+	background: url({% static 'snips/img/loading.gif' %}) center center no-repeat;
+	background-size: 25px;
+}
+</style>
+
+{% endblock %}
+
+{% block nav-url %}
+{% url 'snips:posts' %}
+{% endblock %}
+
+{% block nav-user-url %}
+{% url 'snips:profile' %}
+{% endblock %}
+
+
+{% block navbar-buttons %}
+{% endblock %}
+
+
+{% block body %}
+
+<div id="wrapper">
+
+    <!-- main area -->
+    <div class="row justify-content-center">
+        <div class="col-xl-2 col-lg-2 hidden-md-down" style="padding-left: 0px;">
+            <div class="side-content">
+                <h2>Explore</h2>
+            </div>
+            <ul class="side-content-list">
+                {% for cur_category in categories %}
+                {% is_cat_selected cur_category request as selected %}
+                <li>
+                    <a class="{% if selected %}selected{% endif %}" href="{% url 'snips:posts_category' cur_category.name %}">
+                        {{ cur_category.display_name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="col-xl-7 col-lg-7 col-xs-12 {% if posts %}main-div{% endif %}">
+            {% if profile_view and user.is_authenticated %}
+            <div class="card user-card">
+                <div class="card-block">
+                    <div class="">
+                        <div class="user-name">
+                        Hey, {{ user.get_full_name }}
+                        </div>
+                        <form class="logout-form" method="post" action="{% url 'account_logout' %}?next={% url 'snips:posts' %}">
+                            {% csrf_token %}
+                            <button class="btn btn-danger btn-sm" type="submit">Logout</button>
+                        </form>
+                    </div>
+                    <p class="card-text">You can find here all the snips you've ever liked</p>
+                    <div style="padding-top: 10px">
+                        <form class="form-inline" action="{% url 'userProfile:update-wallet' %}" method="post">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input class="form-control form-control-sm" name="eth_address" placeholder="Your ETH Address" maxlength="66" size="30" value="{{ user.wallet.eth_address }}">
+                                <span class="input-group-btn">
+                                    <input class="btn btn-sm btn-primary" type="submit" value="Update">
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+            {% endif %}
+            {% if posts %}
+            {% for m in my_messages %}
+            <div class="card message-card">
+                <div class="card-block">
+                    <p class="card-text">{{ m.text|safe }}</p>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="scroll">
+                <div class="jscroll-inner">
+                    <!-- ALL POSTS -->
+                    {% block posts_wrapper %}
+                    {% endblock %}
+                </div>
+            </div>
+            {% else %}
+            <div class="text-center" style="padding-top: 100px;">
+                <h3>
+                No Posts found. Sorry...
+                </h3>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-xl-3 col-lg-3 hidden-md-down" style="padding-right: 0px;">
+            <div class="side-content">
+                <h2>Current Tweets</h2>
+            </div>
+            <a class="twitter-timeline" href="https://twitter.com/SnipTweets" data-chrome="nofooter noheader">Best Tweets</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block sidebar-search %}
+    <li class="nav_item">
+        <div class="clearfix input-group">
+            <form class="form-inline search-form" method="get" action="{% url 'snips:posts' %}" style="width: 100%;">
+                <input class="form-control search-sidebar" type="text" name="search" placeholder="Search...">
+                <button class="btn search-sidebar log-b" data-action="search" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </form>
+        </div>
+    </li>
+{% endblock %}
+{% block sidebar %}
+    {% for cur_category in categories %}
+    <li class="nav_item hidden-lg-up">
+        <a alt="{{ cur_category.name }}" href="{% url 'snips:posts_category' cur_category.name %}">
+            {{ cur_category.display_name }}
+        </a>
+    </li>
+    {% endfor %}
+    <li class="separator hidden-lg-up"></li>
+
+{% endblock %}
+
+{% block modals %}
+
+<div class="modal fade messageModal" id="tipModal" aria-hidden="true" tabindex="-1" role="dialog">
+    <div class="modal-dialog center-modal" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="popup-close" aria-hidden="true">&times;</span>
+                </button>
+                <div class="text-center">
+                    <div class="modal-title">Tip <span id="tip_author"></span>
+                    </div>
+                </div>
+                <div class="modal-text">
+                    <form id="tip_form">
+                        <div style="font-size: 90%;">
+                            <label><b>Author Address:</b> <span id="author_address"></span></label>
+                            <!--<label id="author_no_address" class="hidden">The author has no address for tipping. Click here to let the author know this snippet is awesome</label>-->
+                            <div class="qr_address hidden-xs-down" id="author_address_qr"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tip_amount">Amount [ETH]</label>
+                            <input type="number" step="0.01" class="form-control form-control-sm" id="tip_amount" aria-describedby="tipAmount" value="" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="private_key">Your Private Key</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control form-control-sm" id="private_key" aria-describedby="PrivateKey" value="" required>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" type="button" id="toggle_private_key"><i class="fa fa-eye-slash" aria-hidden="true"></i></button>
+                                </span>
+                            </div>
+
+                            <small class="form-text text-muted">Your private key is safe!</small>
+                        </div>
+                        <div class="form-group" id="tx_details_a">
+                            <a data-toggle="collapse" href="#tx_details" aria-expanded="false" aria-controls="txDetails">Tx Details</a>
+                        </div>
+                        <div class="collapse" id="tx_details">
+                            <div class="form-group">
+                                <label for="tip_nonce">Nonce</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control form-control-sm" id="tip_nonce" aria-describedby="tipNonce" value="">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default btn-sm" type="button" id="fetch_nonce">Fetch</button>
+                                    </span>
+                                </div>
+                                <small id="tip_nonce_err" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="tip_gas_limit">Gas Limit</label>
+                                <input type="number" class="form-control form-control-sm" id="tip_gas_limit" aria-describedby="tipGasLimit" value="21000" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="tip_gas_price">Gas Price [Wei]</label>
+                                <input type="number" class="form-control form-control-sm" id="tip_gas_price" aria-describedby="tipGasPrice" value="4000000000" required>
+                            </div>
+                        </div>
+                        <center><button type="submit" class="btn btn-primary btn-sm">Send</button>
+                        <small id="tip_err" class="form-text text-danger"><a href="" target="_blank"></a></small>
+                        <small><a id="tip_success" class="form-text text-success" href="" target="_blank"></a></small>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade messageModal" id="subscribeModal" aria-hidden="true" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg center-modal" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span class="popup-close" aria-hidden="true">&times;</span>
+            </button>
+            <span class="popup-lock">
+                <i class="fa fa-lock" aria-hidden="true"></i>
+            </span>
+            <div class="text-center">
+                <div class="modal-title hidden-md-up">
+                    This snip is available<br>for subscribers only
+                </div>
+                <div class="modal-title hidden-sm-down">
+                    This snip is available for subscribers only
+                </div>
+                <div class="modal-text">
+                    Receive unlimited access to all snips, tailored for you.
+                    <br><b>Only $2.95/mo</b>
+                </div>
+                <div><a class="signup-link btn btn-primary log-b" data-action="subscribe" href="{% url 'userProfile:subscribe' %}">Subscribe</a></div>
+                <div style="font-size: 75%; padding-top: 5px;">Already a member? <a href="{% url 'account_login'%}?next={% url 'snips:posts' %}" class="log-b" data-action="signin">Log in</a></div>
+            </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade messageModal" id="nosnipsModal" aria-hidden="true" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg center-modal" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span class="popup-close" aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-center">
+                <div class="small-modal-title">
+                    You have no more free snips left this month :(
+                </div>
+                <div class="modal-text">
+                    Sign up to get more free snips, tailored for you.
+                </div>
+                <div><a class="signup-link btn btn-primary log-b" data-action="signup" href="{% url 'account_signup' %}">Sign up</a></div>
+                <div style="font-size: 75%; padding-top: 5px;">Already a member? <a href="{% url 'account_login'%}?next={% url 'snips:posts' %}" class="log-b" data-action="signup">Log in</a></div>
+            </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<nav id="voteFooter" class="navbar hidden fixed-bottom bg-faded text-center footer-popup ">
+    <div class="justify-content-center">
+        <div>
+            <div class="signup-footer-big">
+                Voting helps us tailor the best stories for you
+            </div>
+            <div class="signup-footer-small">
+            Your votes are private and aren't shared with anyone.
+            </div>
+        </div>
+        <div style="padding: 4px 0px;">
+            <a href="{% url 'account_signup' %}" class="btn btn-primary btn-sm log-b" data-action="signup" style="border-radius: 0px; width: 130px;">Sign up for free</a>
+        </div>
+        <div style="font-size: 75%;">Already a member? <a href="{% url 'account_login'%}?next={% url 'snips:posts' %}" class="log-b" data-action="signin">Log in</a></div>
+    </div>
+</nav>
+
+
+<nav id="signupFooter" class="navbar hidden fixed-bottom bg-faded text-center footer-popup">
+    <div class="justify-content-center">
+        <div>
+            <div class="signup-footer-big">
+                You have <span id="signupFooterNum"></span> left this month
+            </div>
+            <div class="signup-footer-small">
+            Sign up to get more free snips, tailored for you.
+            </div>
+        </div>
+        <div style="padding: 7px 0px;">
+            <a href="{% url 'account_signup' %}" class="btn btn-primary btn-sm log-b" data-action="signup" style="border-radius: 0px; width: 130px;">Sign up</a>
+
+        </div>
+    </div>
+</nav>
+{% if confirmed %}
+<nav id="emailConfirmed" class="navbar fixed-bottom bg-faded text-center footer-popup">
+    <div class="justify-content-center">
+        <div>
+            <div class="signup-footer-big">
+                Email Confirmed!
+            </div>
+            <div class="signup-footer-small">
+                It's time to read some snips
+            </div>
+        </div>
+    </div>
+</nav>
+{% endif %}
+{% endblock %}
+
+{% block footer %}
+
+<script type="text/javascript" src="{% static 'js/jquery.jscroll.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'snips/js/snips.js' %}"></script>
+<script type="text/javascript" src="{% static 'snips/js/blazy.min.js' %}"></script>
+
+<script type="text/javascript">
+    var views_left = {{ views_left }};
+    var snip_login_url = '{% url 'account_login' %}';
+    var mark_vote = {{ mark_vote }};
+    var remove_vote = {{ remove_vote }};
+    var loading_gif = '{% static 'snips/img/loading.gif' %}';
+    var is_debug = {% if debug %}1{%else%}0{%endif%};
+    var bLazy = new Blazy({
+        offset: 300,
+        success: function(element){
+            setTimeout(function(){
+                var parent = element.parentNode;
+                parent.className = parent.className.replace(/\bloading\b/,'');
+            }, 200);
+        }
+    });
+    setTimeout(function() { bLazy.revalidate(); }, 500);
+</script>
+
+{% if open_main_post %}
+<script>
+$(document).ready(function() {
+    open_first();
+});
+</script>
+{% endif %}
+
+<script async type="text/javascript" src="{% static 'snips/js/tx_utils.js' %}"></script>
+<script async type="text/javascript" src="{% static 'snips/js/qrcode.min.js' %}"></script>
+
+{% if confirmed %}
+<script>
+$(document).ready(function() {
+    setTimeout(function(){
+        $("#emailConfirmed").fadeOut("slow");
+    }, 4000);
+});
+
+</script>
+{% endif %}
+
+{% endblock %}
